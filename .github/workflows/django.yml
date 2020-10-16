@@ -28,7 +28,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       env:
-          SECRET_KEY: "OHexZvvGCs1zjSAkZ51fmn92XAgtgKCDJOwVQXEN0YTC3/cFhK%"
+          DJANGO_SECRET: "OHexZvvGCs1zjSAkZ51fmn92XAgtgKCDJOwVQXEN0YTC3/cFhK%"
       working-directory: ./server/server 
       run: |
         python manage.py test
