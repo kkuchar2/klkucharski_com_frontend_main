@@ -17,11 +17,15 @@ build:
   artifacts:
     paths:
       - node_modules/
+  except:
+    - master
 
 test:
   stage: test
   script:
     - npm test
+  except:
+    - master
 
 deploy:
   stage: deploy
@@ -36,7 +40,7 @@ deploy:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - |
-      ssh $SERVER_USER@$SERVER_IP /bin/zsh -s << EOT 
+      ssh $SERVER_USER@$SERVER_IP /bin/bash -s << EOT 
       cd frontend_main && git fetch --all && git pull
       rm -rf build
       npm run build
