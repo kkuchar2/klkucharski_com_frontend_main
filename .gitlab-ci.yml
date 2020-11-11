@@ -45,6 +45,7 @@ deploy:
         git fetch --all 
         git pull 
         echo $PATH
+        echo $USER
         npm run build
   only:
     - master
