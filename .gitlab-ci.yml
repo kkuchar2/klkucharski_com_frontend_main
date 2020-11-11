@@ -40,12 +40,12 @@ deploy:
     - chmod 644 ~/.ssh/known_hosts
   script:
      - |
-        ssh $SERVER_USER@$SERVER_IP /bin/zsh -s << EOT
+        ssh $SERVER_USER@$SERVER_IP /bin/zsh
+        echo $PATH
+        echo $USER
         cd frontend_main 
         git fetch --all 
         git pull 
-        echo $PATH
-        echo $USER
         npm run build
   only:
     - master
