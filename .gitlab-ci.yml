@@ -40,7 +40,7 @@ deploy:
     - chmod 644 ~/.ssh/known_hosts
   script:
      - |
-        ssh $SERVER_USER@$SERVER_IP /bin/zsh
+        ssh $SERVER_USER@$SERVER_IP /bin/zsh -s << EOT
         echo $PATH
         echo $USER
         cd frontend_main 
