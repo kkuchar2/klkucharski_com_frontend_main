@@ -1,5 +1,5 @@
 describe('First cypress test', () => {
-    it('Visit deploed website', () => {
+    it('Visit deployed website', () => {
         cy.visit('https://klkucharski.com')
     })
 })
