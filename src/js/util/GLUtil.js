@@ -12,7 +12,7 @@ export const createMaterial = (color, alpha) => {
         fragmentShader: fragmentShader,
         wireframe: false
     });
-}
+};
 
 export const createOrthoCamera = (width, height, near, far, z) => {
     let camera = new OrthographicCamera(0, width, height, 0, near, far);
@@ -23,30 +23,30 @@ export const createOrthoCamera = (width, height, near, far, z) => {
     camera.position.z = z;
     camera.updateProjectionMatrix();
     return camera;
-}
+};
 
 export const createRenderer = (width, height, clearColor) => {
-    let renderer = new WebGLRenderer( {alpha: true});
+    let renderer = new WebGLRenderer({alpha: true});
     renderer.setClearColor(clearColor, 0);
     renderer.setSize(width, height);
     return renderer;
-}
+};
 
 export const enableTransparency = renderer => {
     const gl = renderer.getContext();
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-}
+};
 
 export const removeChildrenFromScene = scene => {
     while (scene.children.length > 0) {
         scene.remove(scene.children[0]);
     }
-}
+};
 
 export const createPlaneGeometry = (width, height) => {
     return new PlaneGeometry(width, height, 1);
-}
+};
 
 export const createScene = () => new Scene();
 
@@ -67,4 +67,4 @@ export const createBars = (scene, material1, material2, width, height, data, max
     }
 
     return geometry;
-}
+};

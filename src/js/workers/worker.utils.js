@@ -1,24 +1,36 @@
 import {bubbleSort, insertionSort, mergeSortRecursive, quickSort} from "workers/sorts";
+import {AStarPathfinder} from "workers/pathfinders";
 
 export const SLOWDOWN_FACTOR_MS = 1;
 
-export const state = {
+export const sortState = {
     pause: false,
     abort: false,
     data: []
-}
+};
+
+export const pathFindingState = {
+    pause: false,
+    abort: false,
+    data: [],
+    found_path: false
+};
 
 export const resetState = () => {
-    state.pause = false;
-    state.abort = false;
-}
+    sortState.pause = false;
+    sortState.abort = false;
+};
 
-export const algorithmMap = {
+export const sortAlgorithmMap = {
     "QuickSort": quickSort,
     "BubbleSort": bubbleSort,
     "InsertionSort": insertionSort,
     "MergeSort": mergeSortRecursive
-}
+};
+
+export const pathfindingAlgorithmMap = {
+    "aStar": AStarPathfinder
+};
 
 let previousTime = new Date().getTime();
 let firstTime = true;
@@ -31,35 +43,40 @@ export const notify = (type, payload) => {
         postMessage({type: type, payload: payload});
         previousTime = currentTime;
     }
-    while (new Date().getTime() - currentTime < SLOWDOWN_FACTOR_MS) {
-    }
-}
+    while (new Date().getTime() - currentTime < SLOWDOWN_FACTOR_MS) {}
+};
 
-export const notifyDataShuffled = () => notify("shuffle", state.data);
+export const notifySortDataShuffled = () => notify("shuffle", sortState.data);
 
-export const notifyDataUpdate = () => notify("sort", state.data);
+export const notifySortUpdate = () => notify("sort", sortState.data);
 
-export const onSortMethodExit = () => postMessage({type: "sortFinished", payload: {"sorted": !state.abort}});
+export const notifyPathFindUpdate = () => notify("onPathFindUpdate", pathFindingState.data);
 
-export const getSortMethod = (sort_type) => algorithmMap[sort_type];
+export const onSortMethodExit = () => postMessage({type: "sortFinished", payload: {"sorted": !sortState.abort}});
+
+export const onPathfinderMethodExit = () => postMessage({type: "pathfindingFinished", payload: {"foundPath": pathFindingState.found_path && !pathFindingState.abort}});
+
+export const getSortMethod = (algorithm) => sortAlgorithmMap[algorithm];
+
+export const getPathfindingMethod = (algorithm) => pathfindingAlgorithmMap[algorithm];
 
 export const shuffle = async (size, maxValue) => {
-    state.data = new Array(size);
+    sortState.data = new Array(size);
 
     for (let i = 0; i < size; i++) {
-        state.data[i] = getRandomInt(1, maxValue);
+        sortState.data[i] = getRandomInt(1, maxValue);
     }
-}
+};
 
 export const PromiseTimeout = delay => {
     return new Promise((resolve, reject) => setTimeout(resolve, delay));
-}
+};
 
 export const CheckPause = async () => {
     await PromiseTimeout(0);
-    while (state.pause) {
+    while (sortState.pause) {
         await PromiseTimeout(0);
     }
-}
+};
 
 export const getRandomInt = (min, max) => Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min) + 1)) + min;

@@ -49,6 +49,7 @@ module.exports = {
         pathinfo: false
     },
     resolve: {
+        extensions: [".js", ".jsx"],
         modules: ['node_modules', resolvePath('src/js')],
         alias: {
             images: resolvePath('images/'),
